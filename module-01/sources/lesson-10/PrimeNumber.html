@@ -13,9 +13,7 @@
         let tempNumber = 2;
         function isPrimeNumb(a) {
             let temp = true;
-            if (a == 2)
-                temp = true;
-            else {
+            if(a != 2) {
                 for (let j = 2; j<a; j++) {
                     if (a % j  == 0) {
                         temp = false;
@@ -23,7 +21,6 @@
                     }
                 }
             }
-
             return temp;
         }
         while (count < number) {
