@@ -8,7 +8,16 @@
 </head>
 <body>
     <script>
-        let text = 
+        let a = 0, b = 1;
+        let n = 20;
+        let text = a + " " + b + " ";
+        for (let i = 2; i < n; i++) {
+            let temp = a + b;
+            a = b;
+            b = temp;
+            text += temp + " ";
+        }
+        document.write(text);
     </script>
 </body>
 </html>
