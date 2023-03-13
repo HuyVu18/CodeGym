@@ -8,11 +8,35 @@
 </head>
 <body>
     <script>
-        var x = 1;
-        for (let i = 0; i < -1;i=i+2 ) {
-            x  = x + 1;
+        let n = parseInt(prompt("Nhập một số"));
+        let a = 1;
+        let b = n+1;
+        //Test with a
+        while(a <= n) {
+            document.write(a + " ");
+            a++;
         }
-        console.log(x); 
+
+        document.write("<br>");
+
+        a = 1;
+        do {
+            document.write(a + " ");
+            a++;
+        } while(a <= n);
+
+        document.write("<br>");
+
+        //Test with b
+        while(b <= n) {
+            document.write(b + " ");
+        }
+
+        document.write("<br>");
+
+        do {
+            document.write(b + " ");
+        } while(b <= n);
     </script>
 </body>
 </html>
