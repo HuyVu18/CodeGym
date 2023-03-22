@@ -7,58 +7,79 @@
     <title>Time Table</title>
     <style>
         body {
-            margin: auto;
-            width: 50%;
+            margin: auto !important;
+            width: 100%;
             padding: 10px;
             text-align: center;
         }
         table.para {
-            width: 600px;
+            width: 100%;
             margin-left: auto;
             margin-right: auto;
         }
         table.dat {
-            width: 1000px;
-            margin-left: auto;
-            margin-right: auto;
+            width: 100%;
+            /* margin-left: auto; */
+            /* margin-right: auto; */
             text-align: center;
             border: 1px solid #000;
-            border-collapse: collapse;
         }
         td.yellow {
             background-color: yellow;
             width: 150px;
             border: 1px solid #000;
-            border-collapse: collapse;
         }
         .orange {
             background-color: orange;
             border: 1px solid #000;
-            border-collapse: collapse;
         }
         .em {
             border: 1px solid #000;
+        }
+
+        table, tr, td{
             border-collapse: collapse;
         }
 
+
+
+        
     </style>
 </head>
-<body >
-    <h1>THỜI KHÓA BIỂU</h1>
-    <table class="para" style="color:blue"><th></th>
-        <tr>
-            <td style="text-align: left; width: 300px;">Lớp: C104</td>
-            <td style="text-align: right; width: 300px;">Thời gian học: 5h - 21h30</td>
-        </tr>
-        <tr>
-            <td style="text-align: left; width: 300px;">Giáo viên: Sirius</td>
-            <td style="text-align: right; width: 300px;">Ngày học: 3, 5, 7</td>
-        </tr>
-        <tr>
-            <td style="text-align: left; width: 300px;">Phòng học: L71</td>
-        </tr>
-    </table>
-    <table class="dat"><th></th>
+<body>
+    <h1 style="width: 100%; margin: auto; text-align: center;">THỜI KHÓA BIỂU</h1>
+    <div style="width: 100%;   display: flex; flex-direction: row;">
+        <!-- <table class="para" style="color: blue;">
+            <tbody>
+                <tr>
+                    <td style="text-align: left; width: 300px;">Lớp: C104</td>
+                    <td style="text-align: right; width: 300px;">Thời gian học: 5h - 21h30</td>
+                </tr>
+                <tr>
+                    <td style="text-align: left; width: 300px;">Giáo viên: Sirius</td>
+                    <td style="text-align: right; width: 300px;">Ngày học: 3, 5, 7</td>
+                </tr>
+                <tr>
+                    <td style="text-align: left; width: 300px;">Phòng học: L71</td>
+                </tr>
+            </tbody>
+        </table> -->
+        <p style="width: 20%; text-align: left; background-color: red;">
+            Lớp: C104 <br>
+            Giáo viên: Sirius<br>
+            Phòng học: L71
+        </p>
+
+        <p style="width: 50%; text-align: right;">
+
+            Lớp: C104 <br>
+            Giáo viên: Sirius <br>
+            Phòng học: L71
+        </p>
+    
+    </div>
+    
+    <table class="dat">
         <tr>
             <td colspan="3"></td>
             <td class="yellow">Thứ 3</td>
