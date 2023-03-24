@@ -8,35 +8,29 @@
 </head>
 <body>
     <script>
-        let n = parseInt(prompt("Nhập một số"));
-        let a = 1;
-        let b = n+1;
-        //Test with a
-        while(a <= n) {
-            document.write(a + " ");
-            a++;
+        function changeArray(array, number) {
+            if (number % 2 == 0) {
+                for (let i = 0; i < array.length; i++) {
+                    if (array[i] % 2 == 0) {
+                        array[i]++;
+                    }
+                }
+            }
+            if (number % 2 != 0) {
+                for (let i = 0; i < array.length; i++) {
+                    if (array[i] % 2 != 0) {
+                        array[i]++;
+                    }
+                }
+            }
+            return array;
         }
 
+        let array1 = [5, 0, 4, 3, 4, 7, 8 ,2];
+        document.write(changeArray(array1, 2));
+        let array2 = [5, 0, 4, 3, 4, 7, 8 ,2];
         document.write("<br>");
-
-        a = 1;
-        do {
-            document.write(a + " ");
-            a++;
-        } while(a <= n);
-
-        document.write("<br>");
-
-        //Test with b
-        while(b <= n) {
-            document.write(b + " ");
-        }
-
-        document.write("<br>");
-
-        do {
-            document.write(b + " ");
-        } while(b <= n);
+        document.write(changeArray(array2, 3));
     </script>
 </body>
 </html>
