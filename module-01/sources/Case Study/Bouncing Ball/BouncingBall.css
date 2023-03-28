@@ -4,7 +4,13 @@
 }
 
 canvas {
-    background-color: azure;
+    /* background-image: url(img.jpg);
+    background-size: cover; */
+    background-color: rgb(208, 236, 236);
     display: block;
-    margin: 0 auto;
+    margin: 0 auto; 
+}
+
+h1 {
+    text-align: center;
 }

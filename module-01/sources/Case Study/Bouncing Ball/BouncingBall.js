@@ -12,31 +12,52 @@ const ctx = canvas.getContext("2d");
 //     return text;
 // }
 
+//Circle
 let x = canvas.width/2;
-let y = canvas.height - 80;
+let y = canvas.height/2;
 let radius = 15;
-let dx = 2;
-let dy = 2;
+let setXY = [8, -8, 7, -7 ,6, -6]
+let dx = setXY[Math.floor(Math.random() * 5)];
+let dy = setXY[Math.floor(Math.random() * 5)];
+let tempdx = dx;
+let tempdy = dy;
+
+//Paddle
 let paddleHeight = 10;
-let paddleWidth = 110;
+let paddleWidth = 120;
 let paddleX = (canvas.width - paddleWidth) / 2;
 let paddleY = (canvas.height - paddleHeight);
 let rightPress = false;
 let leftPress = false;
+
+//Brick
 let brick = [];
-let brickRow = 3;
-let brickColumn = 10;
+let brickRow = 4;
+let brickColumn = 9;
 let brickWidth = 75;
 let brickHeight = 20;
 let brickPadding = 10;
-let brickOffSetTop = 30;
-let brickOffSetLeft = 60;
+let brickOffSetTop = 40;    
+let brickOffSetLeft = 50;
+let brickOffsetPadding = 15;
+
+//Square
+let squareX = Math.floor(Math.random() * 880 + 30);
+let squareY = 240;
+let squareWidth = 70;
+let setPN = [1, -1]
+let squareSpeed = (Math.floor(Math.random() * 7 + 12)) * setPN[Math.round(Math.random())];
+let sCount = 0;
+
 let score = 0;
 
-document.addEventListener('keydown', keyDown);
-document.addEventListener('keyup', keyUp);
-document.addEventListener('mousemove', mouseMove);
+document.addEventListener('keyup', paddleKeyUp);
+document.addEventListener('keydown', paddleKeyDown);
 let requestID = requestAnimationFrame(draw);
+// document.addEventListener('mousemove', mouseMove);
+// document.addEventListener('keydown', pauseGames);
+// document.addEventListener('keydown', changeSpeed);
+// let movePaddleID = requestAnimationFrame(movePaddle);
 
 for (let i = 0; i < brickColumn; i++) {
     brick[i] = [];
@@ -45,29 +66,31 @@ for (let i = 0; i < brickColumn; i++) {
             x: 0,
             y: 0,
             status: 1
-        };
+        };      
     }
 }
-function keyDown(e) {
-    if (e.key == 'ArrowRight' || e.key == 'Right') {
-        rightPress = true;
-    } else if (e.key == 'ArrowLeft' || e.key == 'Left') {
-        leftPress = true;
-    }
-}
-function keyUp(e) {
+
+function paddleKeyUp(e) {
     if (e.key == 'ArrowRight' || e.key == 'Right') {
         rightPress = false;
     } else if (e.key == 'ArrowLeft' || e.key == 'Left') {
         leftPress = false;
     }
 }
-function mouseMove(e) {
-    const relativeX = e.clientX - canvas.offsetLeft;
-    if (relativeX > 0 && relativeX < canvas.width) {
-        paddleX = relativeX - paddleWidth/2;
+function paddleKeyDown(e) {
+    if (e.key == 'ArrowRight' || e.key == 'Right') {
+        rightPress = true;
+    } else if (e.key == 'ArrowLeft' || e.key == 'Left') {
+        leftPress = true;
     }
 }
+
+// function mouseMove(e) {
+//     const relativeX = e.clientX - canvas.offsetLeft;
+//     if (relativeX > 0 && relativeX < canvas.width) {
+//         paddleX = relativeX - paddleWidth/2;
+//     }
+// }
 
 function drawCircle() {
     ctx.beginPath();
@@ -87,8 +110,8 @@ function drawBircks() {
     for (let i = 0; i < brickColumn; i++) {
         for (let j = 0; j < brickRow; j++) {
             if (brick[i][j].status == 1) {
-                let brickX = i * (brickWidth + brickPadding) + brickOffSetLeft;
-                let brickY = j * (brickHeight + brickPadding) + brickOffSetTop;
+                let brickX = i * (brickWidth + brickPadding + brickOffsetPadding) + brickOffSetLeft;
+                let brickY = j * (brickHeight + brickPadding + + brickOffsetPadding) + brickOffSetTop;
                 brick[i][j].x = brickX;
                 brick[i][j].y = brickY;
                 ctx.beginPath();
@@ -99,16 +122,23 @@ function drawBircks() {
             }
         }
     }
-    collisionDetection();
+}
+
+function drawSquare() {
+    ctx.beginPath();
+    ctx.rect(squareX, squareY, squareWidth, squareWidth);
+    ctx.fillStyle = 'green';
+    ctx.fill();
+    ctx.closePath();
 }
 
 function drawScore() {
-    ctx.font = '30p Arial';
+    ctx.font = '20px Arial';
     ctx.fillStyle = '#0095DD';
     ctx.fillText('Score: ' + score, 8, 20);
 }
 
-function collisionDetection() {
+function collisionDetectionBrick() {
     for (let i = 0; i < brickColumn; i++) {
         for (let j = 0; j < brickRow; j++) {
             const b = brick[i][j];
@@ -118,7 +148,7 @@ function collisionDetection() {
                     y + radius > b.y &&
                     y - radius < b.y + brickHeight) {
                     dy = -dy;
-                    b.status = 0;
+                    b.status = 0;  
                     score++;
                     if (score == brickColumn * brickRow) {
                         alert('YOU WIN');
@@ -131,41 +161,126 @@ function collisionDetection() {
     }
 }
 
-function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawCircle();
-    drawPaddle();
-    drawBircks();
-    drawScore();
+// function pauseGames(e) {
+//     if (e.key == ' ') {
+//         if (dy != 0 && dx != 0) {
+//             tempdx = dx;
+//             tempdy = dy;
+//             dy = 0;
+//             dx = 0;
+//         } else {
+//             dx = tempdx;
+//             dy = tempdy;
+//         }
+//     }
+// }
+
+// function changeSpeed(e) {
+//     if (e.key == 'ArrowUp' && dx * dy % 10 != 0) {
+//         if (dx > 0) {
+//             if (dy > 0) {
+//                 dx++;
+//                 dy++;
+//             } else if (dy < 0) {
+//                 dx++;
+//                 dy--;
+//             }
+//         } else if (dx < 0) {
+//             if (dy > 0) {
+//                 dx--;
+//                 dy++;
+//             } else if (dy < 0) {
+//                 dx--;
+//                 dy--;
+//             }
+//         }
+//     } else if (e.key == 'ArrowDown' && dx * dy != 1 && dx * dy != -1) {
+//         if (dx > 0) {
+//             if (dy > 0) {
+//                 dx--;
+//                 dy--;
+//             } else if (dy < 0) {
+//                 dx--;
+//                 dy++;
+//             }
+//         } else if (dx < 0) {
+//             if (dy > 0) {
+//                 dx++;
+//                 dy--;
+//             } else if (dy < 0) {
+//                 dx++;
+//                 dy++;
+//             }
+//         }
+//     }
+// }
+function movePaddle() {
+    if (rightPress) {
+        paddleX += 15;
+        if (paddleX + paddleWidth > canvas.width) {
+            paddleX = canvas.width - paddleWidth;
+        }
+    } else if (leftPress) {
+        paddleX -= 15;
+        if (paddleX < 0) {
+            paddleX = 0;
+        }
+    }
+}
+function moveBall() {
+    x += dx;
+    y += dy;
     if (x - radius < 0 || x + radius > canvas.width) {
         dx = -dx;
     }
     if (y - radius < 0) {
         dy = -dy;
-    } else if (y + radius + dy >= canvas.height - paddleHeight) {
-        if (y + radius + dy < canvas.height) {
-            if (x > paddleX && x < paddleX + paddleWidth){
+    } else if (y + radius >= canvas.height - paddleHeight) {
+        if (y + radius < canvas.height) {
+            if (x + radius > paddleX - dx && x - radius < paddleX + paddleWidth + dx){
                 dy = -dy;
             }
-        } else {
+        } else if (y + radius - dy>= canvas.height) {
             alert('GAME OVER');
             document.location.reload();
             cancelAnimationFrame(requestID);
         }
     }
-    if (rightPress) {
-        paddleX += 7;
-        if (paddleX + paddleWidth > canvas.width) {
-            paddleX = canvas.width - paddleWidth;
-        }
-    } else if (leftPress) {
-        paddleX -= 7;
-        if (paddleX < 0) {
-            paddleX = 0;
-        }
+}
+function moveSquare() {
+    squareX += squareSpeed;
+    if (squareX < 0 || squareX + squareWidth > canvas.width) {
+        squareSpeed = -squareSpeed;
     }
-    x += dx;
-    y += dy;
+}
+function collisionDetectionSquare() {
+    if (x + radius >= squareX &&
+        x <= squareX + squareWidth &&
+        y + radius >= squareY &&
+        y <= squareY + squareWidth) {
+           squareY = Math.floor(Math.random() * 201 + 240);
+           squareSpeed = (Math.floor(Math.random() * 7 + 14)) * setPN[Math.round(Math.random())];
+           x = squareX + squareWidth/2;
+           y = squareY + squareWidth + radius;
+           let tempX = [-8, 8, -7, 7, -6, 6];
+           let tempY = [8, 7, 6];
+           dx = tempX[Math.floor(Math.random() * 5)];
+           dy = tempY[Math.floor(Math.random() * 2)];
+        }
+}
+
+function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawCircle();
+    drawPaddle();
+    drawBircks();
+    drawSquare();
+    drawScore();
+    moveBall();
+    movePaddle();
+    collisionDetectionBrick();
+    moveSquare();
+    collisionDetectionSquare();
     requestAnimationFrame(draw);
 }
 
