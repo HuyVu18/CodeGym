@@ -55,23 +55,16 @@ let score = 0;
 let imgBomb =  new Image();
 let imgUfo = new Image();
 let imgTank = new Image();
+let imgAlien = new Image();
 imgBomb.src = 'bomb.png';
 imgUfo.src = 'ufo.png';
 imgTank.src = 'tank.png';
+imgAlien.src = 'alien.png'
 
 //Audio
-let soundtrack = new Audio('soundtrack.mp3')
-
-
-document.addEventListener('keyup', paddleKeyUp);
-document.addEventListener('keydown', paddleKeyDown);
-document.addEventListener('keydown', playGame);
-document.addEventListener('keydown', pauseGame);
-
-// document.addEventListener('mousemove', mouseMove);
-// document.addEventListener('keydown', pauseGames);
-// document.addEventListener('keydown', changeSpeed);
-// let movePaddleID = requestAnimationFrame(movePaddle);
+let soundtrack = new Audio('soundtrack.mp3');
+let explosion = new Audio('explosion.wav');
+let you_lose = new Audio('you_lose.wav')
 
 for (let i = 0; i < brickColumn; i++) {
     brick[i] = [];
@@ -132,8 +125,9 @@ function drawBircks() {
                 brick[i][j].y = brickY;
                 ctx.beginPath();
                 ctx.rect(brickX, brickY, brickWidth, brickHeight);
-                ctx.fillStyle = 'blue';
-                ctx.fill();
+                // ctx.fillStyle = 'blue';
+                // ctx.fill();
+                ctx.drawImage(imgAlien, brickX, brickY, brickWidth, brickHeight);
                 ctx.closePath();
             }
         }
@@ -167,6 +161,7 @@ function collisionDetectionBrick() {
                     dy = -dy;
                     b.status = 0;  
                     score++;
+                    explosion.play();
                     if (score == brickColumn * brickRow) {
                         alert('YOU WIN');
                         document.location.reload();
@@ -258,9 +253,13 @@ function moveBall() {
                 dy = -dy;
             }
         } else if (y + radius - dy>= canvas.height) {
-            alert('GAME OVER');
-            document.location.reload();
+            you_lose.play();
+            alert('YOU DIED');
+            // ctx.font = '80px Arial';
+            // ctx.fillStyle = 'rgb(95, 20, 20)';
+            // ctx.fillText('YOU DIED', canvas.width/3, canvas.height/2);
             cancelAnimationFrame(requestID);
+            document.location.reload();
         }
     }
 }
@@ -286,6 +285,14 @@ function collisionDetectionSquare() {
         }
 }
 
+document.addEventListener('keyup', paddleKeyUp);
+document.addEventListener('keydown', paddleKeyDown);
+document.addEventListener('keydown', playGame);
+document.addEventListener('keydown', pauseGame);
+document.addEventListener('keydown', playSoundtrack);
+document.addEventListener('keydown', pauseSoundtrack);
+
+var requestID;
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawCircle();
@@ -298,12 +305,12 @@ function draw() {
     collisionDetectionBrick();
     moveSquare();
     collisionDetectionSquare();
-    requestAnimationFrame(draw);
+    requestID = requestAnimationFrame(draw);
 }
 
 function playGame(e) {
     if (e.key == ' ') {
-        let requestID = requestAnimationFrame(draw);
+        draw();
     }
 }
 
@@ -312,6 +319,13 @@ function pauseGame(e) {
         cancelAnimationFrame(requestID);
     }
 }
-function playSoundtrack() {
-    soundtrack.play();
+function playSoundtrack(e) {
+    if (e.key == 'm') {
+        soundtrack.play();
+    }
+}
+function pauseSoundtrack(e) {
+    if (e.key == 'n') {
+        soundtrack.pause();
+    }
 }
