@@ -23,7 +23,7 @@ let tempdx = dx;
 let tempdy = dy;
 
 //Paddle
-let paddleHeight = 10;
+let paddleHeight = 70;
 let paddleWidth = 120;
 let paddleX = (canvas.width - paddleWidth) / 2;
 let paddleY = (canvas.height - paddleHeight);
@@ -51,9 +51,23 @@ let sCount = 0;
 
 let score = 0;
 
+//Image
+let imgBomb =  new Image();
+let imgUfo = new Image();
+let imgTank = new Image();
+imgBomb.src = 'bomb.png';
+imgUfo.src = 'ufo.png';
+imgTank.src = 'tank.png';
+
+//Audio
+let soundtrack = new Audio('soundtrack.mp3')
+
+
 document.addEventListener('keyup', paddleKeyUp);
 document.addEventListener('keydown', paddleKeyDown);
-let requestID = requestAnimationFrame(draw);
+document.addEventListener('keydown', playGame);
+document.addEventListener('keydown', pauseGame);
+
 // document.addEventListener('mousemove', mouseMove);
 // document.addEventListener('keydown', pauseGames);
 // document.addEventListener('keydown', changeSpeed);
@@ -97,13 +111,15 @@ function drawCircle() {
     ctx.arc(x, y, radius, 0, Math.PI * 2);
     ctx.fillStyle = 'red';
     ctx.fill();
+    ctx.drawImage(imgBomb, x - radius - 5, y - radius - 17 , radius * 3.5, radius * 3.5);
     ctx.closePath();
 }
 function drawPaddle() {
     ctx.beginPath();
     ctx.rect(paddleX, paddleY, paddleWidth, paddleHeight);
-    ctx.fillStyle = 'blue';
-    ctx.fill();
+    // ctx.fillStyle = 'blue';
+    // ctx.fill();
+    ctx.drawImage(imgTank, paddleX, paddleY, paddleWidth, paddleHeight);
     ctx.closePath();
 }
 function drawBircks() {
@@ -127,8 +143,9 @@ function drawBircks() {
 function drawSquare() {
     ctx.beginPath();
     ctx.rect(squareX, squareY, squareWidth, squareWidth);
-    ctx.fillStyle = 'green';
-    ctx.fill();
+    // ctx.fillStyle = 'green';
+    // ctx.fill();
+    ctx.drawImage(imgUfo, squareX - 10, squareY, squareWidth + 20, squareWidth)
     ctx.closePath();
 }
 
@@ -237,7 +254,7 @@ function moveBall() {
         dy = -dy;
     } else if (y + radius >= canvas.height - paddleHeight) {
         if (y + radius < canvas.height) {
-            if (x + radius > paddleX - dx && x - radius < paddleX + paddleWidth + dx){
+            if (x + radius > paddleX - dx && x - radius < paddleX + paddleWidth + dx ){
                 dy = -dy;
             }
         } else if (y + radius - dy>= canvas.height) {
@@ -284,3 +301,17 @@ function draw() {
     requestAnimationFrame(draw);
 }
 
+function playGame(e) {
+    if (e.key == ' ') {
+        let requestID = requestAnimationFrame(draw);
+    }
+}
+
+function pauseGame(e) {
+    if (e.key == 'p') {
+        cancelAnimationFrame(requestID);
+    }
+}
+function playSoundtrack() {
+    soundtrack.play();
+}

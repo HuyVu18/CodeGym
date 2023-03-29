@@ -4,8 +4,8 @@
 }
 
 canvas {
-    /* background-image: url(img.jpg);
-    background-size: cover; */
+    background-image: url(background.png);
+    background-size: cover;
     background-color: rgb(208, 236, 236);
     display: block;
     margin: 0 auto; 
