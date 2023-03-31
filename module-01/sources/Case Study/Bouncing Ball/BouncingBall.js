@@ -23,8 +23,8 @@ let tempdx = dx;
 let tempdy = dy;
 
 //Paddle
-let paddleHeight = 70;
-let paddleWidth = 120;
+let paddleHeight = 60;
+let paddleWidth = 130;
 let paddleX = (canvas.width - paddleWidth) / 2;
 let paddleY = (canvas.height - paddleHeight);
 let rightPress = false;
@@ -32,14 +32,14 @@ let leftPress = false;
 
 //Brick
 let brick = [];
-let brickRow = 4;
-let brickColumn = 9;
+let brickRow = 2;
+let brickColumn = 5;
 let brickWidth = 75;
 let brickHeight = 20;
 let brickPadding = 10;
 let brickOffSetTop = 40;    
-let brickOffSetLeft = 50;
-let brickOffsetPadding = 15;
+let brickOffSetLeft = 100;
+let brickOffsetPadding = 80;
 
 //Square
 let squareX = Math.floor(Math.random() * 880 + 30);
@@ -64,7 +64,8 @@ imgAlien.src = 'alien.png'
 //Audio
 let soundtrack = new Audio('soundtrack.mp3');
 let explosion = new Audio('explosion.wav');
-let you_lose = new Audio('you_lose.wav')
+let you_lose = new Audio('you_lose.wav');
+let victory = new Audio('victory.mp3');
 
 for (let i = 0; i < brickColumn; i++) {
     brick[i] = [];
@@ -144,8 +145,8 @@ function drawSquare() {
 }
 
 function drawScore() {
-    ctx.font = '20px Arial';
-    ctx.fillStyle = '#0095DD';
+    ctx.font = '25px Arial';
+    ctx.fillStyle = 'rgb(95, 20, 20)';
     ctx.fillText('Score: ' + score, 8, 20);
 }
 
@@ -163,6 +164,7 @@ function collisionDetectionBrick() {
                     score++;
                     explosion.play();
                     if (score == brickColumn * brickRow) {
+                        victory.play();
                         alert('YOU WIN');
                         document.location.reload();
                         cancelAnimationFrame(requestID);
@@ -173,59 +175,6 @@ function collisionDetectionBrick() {
     }
 }
 
-// function pauseGames(e) {
-//     if (e.key == ' ') {
-//         if (dy != 0 && dx != 0) {
-//             tempdx = dx;
-//             tempdy = dy;
-//             dy = 0;
-//             dx = 0;
-//         } else {
-//             dx = tempdx;
-//             dy = tempdy;
-//         }
-//     }
-// }
-
-// function changeSpeed(e) {
-//     if (e.key == 'ArrowUp' && dx * dy % 10 != 0) {
-//         if (dx > 0) {
-//             if (dy > 0) {
-//                 dx++;
-//                 dy++;
-//             } else if (dy < 0) {
-//                 dx++;
-//                 dy--;
-//             }
-//         } else if (dx < 0) {
-//             if (dy > 0) {
-//                 dx--;
-//                 dy++;
-//             } else if (dy < 0) {
-//                 dx--;
-//                 dy--;
-//             }
-//         }
-//     } else if (e.key == 'ArrowDown' && dx * dy != 1 && dx * dy != -1) {
-//         if (dx > 0) {
-//             if (dy > 0) {
-//                 dx--;
-//                 dy--;
-//             } else if (dy < 0) {
-//                 dx--;
-//                 dy++;
-//             }
-//         } else if (dx < 0) {
-//             if (dy > 0) {
-//                 dx++;
-//                 dy--;
-//             } else if (dy < 0) {
-//                 dx++;
-//                 dy++;
-//             }
-//         }
-//     }
-// }
 function movePaddle() {
     if (rightPress) {
         paddleX += 15;
@@ -239,6 +188,7 @@ function movePaddle() {
         }
     }
 }
+
 function moveBall() {
     x += dx;
     y += dy;
@@ -252,14 +202,18 @@ function moveBall() {
             if (x + radius > paddleX - dx && x - radius < paddleX + paddleWidth + dx ){
                 dy = -dy;
             }
-        } else if (y + radius - dy>= canvas.height) {
+        } else if (y + radius >= canvas.height) {
             you_lose.play();
-            alert('YOU DIED');
-            // ctx.font = '80px Arial';
-            // ctx.fillStyle = 'rgb(95, 20, 20)';
-            // ctx.fillText('YOU DIED', canvas.width/3, canvas.height/2);
-            cancelAnimationFrame(requestID);
-            document.location.reload();
+            // alert('YOU DIED');
+            ctx.font = '80px Arial';
+            ctx.fillStyle = 'rgb(95, 20, 20)';
+            ctx.fillText('YOU DIED', canvas.width/3, canvas.height/2);
+            ctx.font = '60px Arial';
+            ctx.fillStyle = 'rgb(95, 20, 20)';
+            ctx.fillText('Press R to replay', canvas.width/3, canvas.height/2 + 70);
+            // document.location.reload();
+            cancelAnimationFrame();
+            
         }
     }
 }
@@ -291,8 +245,9 @@ document.addEventListener('keydown', playGame);
 document.addEventListener('keydown', pauseGame);
 document.addEventListener('keydown', playSoundtrack);
 document.addEventListener('keydown', pauseSoundtrack);
+document.addEventListener('keydown', reloadPage);
 
-var requestID;
+let requestID;
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawCircle();
@@ -327,5 +282,10 @@ function playSoundtrack(e) {
 function pauseSoundtrack(e) {
     if (e.key == 'n') {
         soundtrack.pause();
+    }
+}
+function reloadPage(e) {
+    if (e.key == 'r') {
+        document.location.reload();
     }
 }
