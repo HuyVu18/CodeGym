@@ -13,13 +13,13 @@ public class BMI {
         double height = scan.nextDouble();
         double BMI = weight / pow(height, 2);
         if (BMI < 18.5) {
-            System.out.print("Underweight");
+            System.out.printf("%-20.2f%s", BMI, "Underweight");
         } else if (BMI >= 18.5 && BMI < 25.0) {
-            System.out.print("Normal");
+            System.out.printf("%-20.2f%s", BMI, "Normal");
         } else if (BMI >= 25.0 && BMI < 30.0) {
-            System.out.print("Overweight");
+            System.out.printf("%-20.2f%s", BMI, "Overweight");
         } else if (BMI >= 30.0) {
-            System.out.print("Obese");
+            System.out.printf("%-20.2f%s", BMI, "Obese");
         }
     }
 }
