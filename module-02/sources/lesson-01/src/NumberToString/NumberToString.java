@@ -102,9 +102,6 @@ public class NumberToString {
             case 9 -> {
                 text = "ninety";
             }
-            case 0 -> {
-                text = "and";
-            }
         }
         return text;
     }
