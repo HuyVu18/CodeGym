@@ -5,7 +5,6 @@ public class PrimeNumber {
         Scanner scan = new Scanner(System.in);
         System.out.print("Enter a number: ");
         int number = scan.nextInt();
-
         if (number < 2) {
             System.out.print(number + " is not a prime number");
         } else {
