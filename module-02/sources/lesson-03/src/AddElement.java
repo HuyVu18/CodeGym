@@ -12,7 +12,7 @@ public class AddElement {
     }
 
     public static void main(String[] args) {
-        int[] arr = {1, 2, 3, 4, 5, 6 , 7, 0, 0, 0, 0};
+        int[] arr = {1, 2, 3, 4, 5, 6, 7, 0, 0, 0, 0};
         int size = 7; //size is the amount of element that does equal to 0
         Scanner scan = new Scanner(System.in);
         System.out.print("Enter value will be added: ");
