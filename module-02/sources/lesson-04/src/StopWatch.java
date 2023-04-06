@@ -1,4 +1,5 @@
 import java.util.Date;
+import java.util.Scanner;
 
 class SelectionSort {
     void sort(int[] arr) {
@@ -86,14 +87,16 @@ public class StopWatch {
 //        System.out.println(stop);
         SelectionSort ob = new SelectionSort();
         StopWatch watch = new StopWatch();
-        watch.setStartTime(new Date());
-        int[] arr = new int[1000];
+        watch.start();
+        int[] arr = new int[100000];
         for (int index = 0; index < arr.length; index++) {
             arr[index] = (int) (Math.random() * 100000);
         }
 //        int[] arr = {64,25,12,22,11,45,80,47,32,49,59,97,98,27,28,29,15,17,61,62};
         ob.sort(arr);
-        watch.setEndTime(new Date());
+//        Scanner scanner = new Scanner(System.in);
+//        int i = scanner.nextInt();
+        watch.stop();
         System.out.println("Sorted array");
         ob.printArray(arr);
         System.out.println("Time elapsed = " + watch.getElapsedTime());

@@ -56,8 +56,9 @@ public class Fan {
     public static void main(String[] args) {
         final boolean on = true;
         final boolean off = false;
-        Fan fan1 = new Fan(10, on, 10.0, "yellow");
-        Fan fan2 = new Fan(5, off, 5.0, "blue");
+
+        Fan fan1 = new Fan(3, on, 10.0, "yellow");
+        Fan fan2 = new Fan(2, off, 5.0, "blue");
         System.out.println(fan1.toString());
         System.out.println(fan2.toString());
     }
