@@ -1,21 +1,21 @@
 public class Cartline {
-    String id;
-    Product product;
-    int quantity;
-    int totalPrice;
+    private String id;
+    private Product product;
+    private int quantity;
+    private int linePrice;
 
-    public Cartline(String id, Product product, int quantity, int totalPrice) {
+    public Cartline(String id, Product product, int quantity) {
         this.id = id;
         this.product = product;
         this.quantity = quantity;
-        this.totalPrice = totalPrice;
+        this.linePrice = product.getPrice() * quantity;
     }
 
     public Cartline() {
         this.id = "id";
         this.product = new Product();
         this.quantity = 0;
-        this.totalPrice = 0;
+        this.linePrice = 0;
     }
 
     public String getId() {
@@ -42,19 +42,20 @@ public class Cartline {
         this.quantity = quantity;
     }
 
-    public int gettotalPrice() {
-        return totalPrice;
+    public int getLinePrice() {
+        return linePrice;
     }
 
-    public void settotalPrice(int totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
-    public int lineTotalprice() {
-        return product.getPrice() * getQuantity();
+    public void setLinePrice(int linePrice) {
+        this.linePrice = linePrice;
     }
 
     public String getCartlineString() {
-        return String.format("%s. %s x %d = %d", getId(), product.getProductString(), getQuantity(), lineTotalprice());
+        return String.format("%s. %s x %d = %d", getId(), product.getProductString(), getQuantity(), getLinePrice());
+    }
+
+    public void updateCartLine(int quantityChange) {
+        this.quantity = quantityChange;
+        this.linePrice = this.product.getPrice() * quantityChange;
     }
 }

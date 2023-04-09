@@ -1,14 +1,14 @@
 public class Category {
-    String id;
-    String name;
-    String image;
-    Product[] products;
+    private String id;
+    private String name;
+    private String image;
+    private Product[] products;
 
     public Category() {
         this.id = "id";
         this.name = "name";
         this.image = "image";
-        this.products = new Product[0];
+        this.products = new Product[4];
     }
 
     public Category(String id, String name, String image, Product[] products) {
@@ -50,11 +50,14 @@ public class Category {
         this.products = products;
     }
 
-    public String printProductList() {
+    public void printProductList() {
         String text = "";
+        int count = 1;
         for (Product element : getProducts()) {
+            text += count + ". ";
             text += element.getProductString() + "\n";
+            count++;
         }
-        return text;
+        System.out.print(text);
     }
 }

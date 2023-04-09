@@ -1,9 +1,9 @@
 public class User {
-    String id;
-    String name;
-    String password;
-    String phone;
-    Address address;
+    private String id;
+    private String name;
+    private String password;
+    private String phone;
+    private Address address;
 
     public User(String id, String name, String password, String phone, Address address) {
         this.id = id;
@@ -17,7 +17,7 @@ public class User {
         this.id = "id";
         this.name = "name";
         this.password = "password";
-        this.phone = "phone";
+        this.phone = "not set";
         this.address = new Address();
     }
 
@@ -57,11 +57,13 @@ public class User {
         return address;
     }
 
-    public String getAddressString() {
-        return address.getAddressString();
-    }
-
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    public void printUserInfo() {
+        System.out.println("Username: " + getName());
+        System.out.println("Phone number: " + getPhone());
+        System.out.println("Address: " + address.getAddressString());
     }
 }

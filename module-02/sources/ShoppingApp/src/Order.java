@@ -1,35 +1,26 @@
 import java.util.Date;
 
 public class Order {
-    String id;
-    boolean shipped;
-    int totalPrice;
-    Address address;
-    String customer;
-    String phone;
-    Date receiveTime;
-    Cart orderBill;
+    private String id;
+    private User customer;
+    private Date receiveTime;
+    private boolean shipped;
+    private Cart cartOrder;
 
-    public Order(String id, boolean shipped, int totalPrice, Address address, String customer, String phone, Date receiveTime, Cart orderBill) {
+    public Order(String id, User customer, Date receiveTime, boolean shipped, Cart cartOrder) {
         this.id = id;
-        this.shipped = shipped;
-        this.totalPrice = totalPrice;
-        this.address = address;
         this.customer = customer;
-        this.phone = phone;
         this.receiveTime = receiveTime;
-        this.orderBill = orderBill;
+        this.shipped = shipped;
+        this.cartOrder = cartOrder;
     }
 
     public Order() {
         this.id = "id";
-        this.shipped = false;
-        this.totalPrice = 0;
-        this.address = new Address();
-        this.customer = "customer";
-        this.phone = "120";
+        this.customer = new User();
         this.receiveTime = new Date();
-        this.orderBill = new Cart();
+        this.shipped = false;
+        this.cartOrder = new Cart();
     }
 
     public String getId() {
@@ -40,44 +31,12 @@ public class Order {
         this.id = id;
     }
 
-    public boolean isShipped() {
-        return shipped;
-    }
-
-    public void setShipped(boolean shipped) {
-        this.shipped = shipped;
-    }
-
-    public int getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(int totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
-    public Address getAddress() {
-        return address;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
-    }
-
-    public String getCustomer() {
+    public User getCustomer() {
         return customer;
     }
 
-    public void setCustomer(String customer) {
+    public void setCustomer(User customer) {
         this.customer = customer;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
     }
 
     public Date getReceiveTime() {
@@ -88,23 +47,29 @@ public class Order {
         this.receiveTime = receiveTime;
     }
 
-    public Cart getOrderBill() {
-        return orderBill;
+    public boolean isShipped() {
+        return shipped;
     }
 
-    public void setOrderBill(Cart orderBill) {
-        this.orderBill = orderBill;
+    public void setShipped(boolean shipped) {
+        this.shipped = shipped;
     }
 
-    public String printBill() {
-        String text = "";
-        text += "Order number: " + this.getId() + "\n";
-        text += "Customer name: " + this.getCustomer() + "\n";
-        text += "Customer phone number: " + this.getPhone() + "\n";
-        text += "Receive time: " + this.getReceiveTime().toString() + "\n";
-        text += "List of product: \n";
-        text += this.getOrderBill().printCart() + "\n";
-        text += "Total price of your order is: " + this.getOrderBill().calculateTotalPrice() + "\n";
-        return text;
+    public Cart getCartOrder() {
+        return cartOrder;
+    }
+
+    public void setCartOrder(Cart cartOrder) {
+        this.cartOrder = cartOrder;
+    }
+
+    public void printBill() {
+        System.out.println("Order number: " + this.getId());
+        System.out.println("Customer name: " + this.getCustomer().getName());
+        System.out.println("Customer phone number: " + this.getCustomer().getPhone());
+        System.out.println("Receive time: " + this.getReceiveTime().toString());
+        System.out.println("List of product:");
+        getCartOrder().printCart();
+        System.out.println("Total price of your order is: " + this.getCartOrder().getCartPrice());
     }
 }

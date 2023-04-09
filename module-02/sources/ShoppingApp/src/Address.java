@@ -1,8 +1,8 @@
 public class Address {
-    String street;
-    String number;
-    String ward;
-    String district;
+    private String street;
+    private String number;
+    private String ward;
+    private String district;
 
     public Address(String street, String number, String ward, String district) {
         this.street = street;
@@ -12,10 +12,10 @@ public class Address {
     }
 
     public Address() {
-        this.street = "street";
-        this.number = "number";
-        this.ward = "ward";
-        this.district = "district";
+        this.street = "not set";
+        this.number = "not set";
+        this.ward = "not set";
+        this.district = "not set";
     }
 
     public String getStreet() {
@@ -47,6 +47,13 @@ public class Address {
     }
 
     public void setDistrict(String district) {
+        this.district = district;
+    }
+
+    public void updateAddressInfo(String street, String number, String ward, String district) {
+        this.street = street;
+        this.number = number;
+        this.ward = ward;
         this.district = district;
     }
 

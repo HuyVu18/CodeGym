@@ -1,8 +1,8 @@
 public class Product {
-    String id;
-    String name;
-    String image;
-    int price;
+    private String id;
+    private String name;
+    private String image;
+    private int price;
 
     public Product() {
         this.id = "id";

@@ -1,18 +1,15 @@
 public class Cart {
-    String id;
-    Cartline[] cartlines;
-    int totalPrice;
+    private String id;
+    private Cartline[] cartline;
 
     public Cart() {
         this.id = "id";
-        this.cartlines = new Cartline[0];
-        this.totalPrice = 0;
+        this.cartline = new Cartline[3];
     }
 
-    public Cart(String id, Cartline[] cartlines, int totalPrice) {
+    public Cart(String id, Cartline[] cartline) {
         this.id = id;
-        this.cartlines = cartlines;
-        this.totalPrice = totalPrice;
+        this.cartline = cartline;
     }
 
     public String getId() {
@@ -23,35 +20,67 @@ public class Cart {
         this.id = id;
     }
 
-    public Cartline[] getCartlines() {
-        return cartlines;
+    public Cartline[] getcartline() {
+        return cartline;
     }
 
-    public void setCartlines(Cartline[] cartlines) {
-        this.cartlines = cartlines;
+    public void setCartLine(Cartline[] cartline) {
+        this.cartline = cartline;
     }
 
-    public int getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(int totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
-    public int calculateTotalPrice() {
+    public int getCartPrice() {
         int sum = 0;
-        for (Cartline cartline : getCartlines()) {
-            sum += cartline.gettotalPrice();
+        for (Cartline cartline : getcartline()) {
+            sum += cartline.getLinePrice();
         }
         return sum;
     }
 
-    public String printCart() {
-        String text = "";
-        for (Cartline element : cartlines) {
-            text += element.getCartlineString() + "\n";
+    public void declareCartLine() {
+        for (int i = 0; i < cartline.length; i++) {
+            cartline[i] = new Cartline();
         }
-        return text;
+    }
+
+    public int checkCartExist(Product product) {
+        int check = -1;
+        for (int index = 0; index < cartline.length; index++) {
+            if (cartline[index].getProduct().getName() == product.getName()) {
+                check = index;
+                break;
+            }
+        }
+        return check;
+    }
+
+    public int checkCartSlot() {
+        int check = -1;
+        for (int i = 0; i < cartline.length; i++) {
+            if (cartline[i].getQuantity() == 0) {
+                check = i;
+                break;
+            }
+        }
+        return check;
+    }
+
+    public void addToCart(Product product) {
+        int checkExist = checkCartExist(product);
+        int checkSlot = checkCartSlot();
+        if (checkExist != -1) {
+            cartline[checkExist].updateCartLine(cartline[checkExist].getQuantity() + 1);
+        } else {
+            if (checkSlot == -1) {
+                System.out.println("Cart is full");
+            } else {
+                cartline[checkSlot] = new Cartline(Integer.toString(checkSlot + 1) + "C", product, 1);
+            }
+        }
+    }
+
+    public void printCart() {
+        for (Cartline element : cartline) {
+            System.out.println(element.getCartlineString());
+        }
     }
 }
